@@ -29,7 +29,6 @@ export function GraphCanvas({ extent }: GraphCanvasProps) {
             drawGridlines(ctxt);
         });
 
-
         return () => {
             window.cancelAnimationFrame(handle);
         };

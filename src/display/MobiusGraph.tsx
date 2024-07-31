@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import styles from "./graph.module.css";
 import { Complex, Extent2d } from "../coord";
 import { useElementExtent } from "../hooks/useElementExtent";
@@ -12,18 +12,27 @@ const INITIAL_EXTENT: Extent2d = {
     height: 100,
 };
 
+type ValuePair = [Complex, (c: Complex) => void];
+
+interface MobiusGraphProps {
+    readonly value1: ValuePair;
+    readonly value2: ValuePair;
+    readonly value3: ValuePair;
+}
+
 /**
  * Renders a visualization of the current Mobius transformation.
  */
-export function MobiusGraph() {
+export function MobiusGraph({ value1, value2, value3 }: MobiusGraphProps) {
     const ref = useRef<HTMLDivElement>(null);
     const extent = useElementExtent(ref, INITIAL_EXTENT);
-    const [value, setValue] = useState<Complex>({ real: 0, imag: 0 });
 
     return (
         <div ref={ref} className={styles.graphContainer}>
             <GraphCanvas extent={extent} />
-            <MovablePoint value={value} setValue={setValue} containingExtent={extent} />
+            <MovablePoint value={value1[0]} setValue={value1[1]} containingExtent={extent} />
+            <MovablePoint value={value2[0]} setValue={value2[1]} containingExtent={extent} />
+            <MovablePoint value={value3[0]} setValue={value3[1]} containingExtent={extent} />
         </div>
     );
 }

@@ -1,7 +1,7 @@
 .graphContainer {
     position: relative; /* use relative position to establish new containing block */
     width: 90vw;
-    height: 90vh;
+    height: 80vh;
     background-color: white;
     /* temporary values to show border */
     /* border-width: 1px;
