@@ -5,10 +5,12 @@
  * 1. Complex numbers:
  *   This is the "logical" coordinate system used as the source of truth.
  *   The origin is at the center of the rendering window, and units are abstract.
+ *   The imaginary axis points *upwards* in the positive direction.
  * 
  * 2. Positional coordinates:
  *   This is the "physical" coordinate system we transform complex numbers into before displaying them.
  *   The origin is at the top-left of the rendering window, and units are in pixels.
+ *   The y-axis (corresponding to the imaginary axis) points *downwards* in the positive direction.
  */
 
 /**
@@ -47,7 +49,7 @@ export interface Extent2d {
 export function transformPhysical(c: Complex, extent: Extent2d): Position2d {
     return {
         x: (extent.width / 2) + (c.real * PIXELS_PER_UNIT),
-        y: (extent.height / 2) + (c.imag * PIXELS_PER_UNIT),
+        y: (extent.height / 2) - (c.imag * PIXELS_PER_UNIT),
     }
 }
 
@@ -60,7 +62,7 @@ export function transformPhysical(c: Complex, extent: Extent2d): Position2d {
 export function transformComplex(p: Position2d, extent: Extent2d): Complex {
     return {
         real: (p.x - (extent.width / 2)) / PIXELS_PER_UNIT,
-        imag: (p.y - (extent.height / 2)) / PIXELS_PER_UNIT,
+        imag: ((extent.height / 2) - p.y) / PIXELS_PER_UNIT,
     }
 }
 
