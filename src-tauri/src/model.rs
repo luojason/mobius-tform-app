@@ -10,6 +10,7 @@ use serde::{de, ser, Deserialize, Serialize};
 pub type Complexf = na::Complex<f64>;
 
 /// The curves we're interested in are lines and circles.
+///
 /// A Mobius transformation will map a circle/line to another circle/line.
 #[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)]
 #[serde(tag = "type")]
@@ -19,7 +20,7 @@ pub enum Curve {
     Line { point: Complexf, slope: Complexf },
     /// A circle represents the set of points `|z - center| = radius`
     #[serde(rename = "circle")]
-    Circle { center: Complexf, radius: f32 },
+    Circle { center: Complexf, radius: f64 },
 }
 
 /// An element of the extended complex plane (i.e. the Riemann sphere).

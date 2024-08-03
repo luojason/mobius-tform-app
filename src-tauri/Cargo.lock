@@ -1542,6 +1542,7 @@ dependencies = [
 name = "mobius-app"
 version = "0.0.0"
 dependencies = [
+ "approx",
  "nalgebra",
  "serde",
  "serde_json",
