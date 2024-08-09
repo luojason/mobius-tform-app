@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import styles from "./graph.module.css";
-import { Complex, Extent2d } from "../coord";
+import { Complex, Extent2d } from "../model/coord";
 import { useElementExtent } from "../hooks/useElementExtent";
 import { GraphCanvas } from "./GraphCanvas";
 import { MovablePoint } from "./MovablePoint";

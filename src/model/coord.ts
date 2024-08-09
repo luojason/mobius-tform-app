@@ -19,14 +19,8 @@
  */
 export const PIXELS_PER_UNIT = 15;
 
-/** A complex number. */
-export interface Complex {
-    readonly real: number;
-    readonly imag: number;
-}
-
-/** An number in the extended complex plane, which includes the point at infinity. */
-export type ExtComplex = Complex | 'inf';
+/** A complex number. Represented as a compact tuple [real, imaginary] to match with format used in backend. */
+export type Complex = [number, number];
 
 /** Represents a 2d point in the viewing window, typically represented in offset coordinate space. */
 export interface Position2d {
@@ -48,8 +42,8 @@ export interface Extent2d {
  */
 export function transformPhysical(c: Complex, extent: Extent2d): Position2d {
     return {
-        x: (extent.width / 2) + (c.real * PIXELS_PER_UNIT),
-        y: (extent.height / 2) - (c.imag * PIXELS_PER_UNIT),
+        x: (extent.width / 2) + (c[0] * PIXELS_PER_UNIT),
+        y: (extent.height / 2) - (c[1] * PIXELS_PER_UNIT),
     }
 }
 
@@ -60,10 +54,10 @@ export function transformPhysical(c: Complex, extent: Extent2d): Position2d {
  * @returns The corresponding complex number.
  */
 export function transformComplex(p: Position2d, extent: Extent2d): Complex {
-    return {
-        real: (p.x - (extent.width / 2)) / PIXELS_PER_UNIT,
-        imag: ((extent.height / 2) - p.y) / PIXELS_PER_UNIT,
-    }
+    return [
+        (p.x - (extent.width / 2)) / PIXELS_PER_UNIT,
+        ((extent.height / 2) - p.y) / PIXELS_PER_UNIT,
+    ];
 }
 
 /**

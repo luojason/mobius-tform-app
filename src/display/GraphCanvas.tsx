@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { Extent2d, PIXELS_PER_UNIT } from "../coord";
+import { Extent2d, PIXELS_PER_UNIT } from "../model/coord";
 import styles from "./graph.module.css";
 
 interface GraphCanvasProps {
@@ -65,7 +65,7 @@ function drawGridlines(ctxt: CanvasRenderingContext2D) {
     ctxt.lineTo(0, height);
     ctxt.stroke();
     ctxt.lineWidth = 1;
-    
+
     // draw gridlines in the X-axis direction
     for (let y = PIXELS_PER_UNIT; y < height; y += PIXELS_PER_UNIT) {
         // draw both lines above and below the X-axis

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Extent2d } from "../coord";
+import { Extent2d } from "../model/coord";
 
 /**
  * A hook that provides an Extent2d which is synchronized with the size of an element.

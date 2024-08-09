@@ -1,4 +1,4 @@
-import * as C from "../coord";
+import * as C from "../model/coord";
 
 interface DisplayProps {
     readonly value: C.Complex;
@@ -7,9 +7,9 @@ interface DisplayProps {
 export function ControlPointDisplay({ value }: DisplayProps) {
     return (
         <div>
-            <input value={value.real} readOnly={true} />
+            <input value={value[0]} readOnly={true} />
             {" + "}
-            <input value={value.imag} readOnly={true} />
+            <input value={value[1]} readOnly={true} />
             j
         </div>
     )

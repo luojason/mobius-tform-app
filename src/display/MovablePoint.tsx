@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import * as C from "../coord";
+import * as C from "../model/coord";
 import styles from "./graph.module.css";
 
 interface MovablePointProps {
