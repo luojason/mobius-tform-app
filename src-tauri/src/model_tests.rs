@@ -1,4 +1,4 @@
-use serde_json::{json, Value};
+use serde_json::json;
 
 use super::*;
 
@@ -86,13 +86,16 @@ fn serialize_curve_line() {
         slope: Complexf::new(3.0, 4.0),
     };
     let json = serde_json::to_string(&curve).expect("serialization should succeed");
-    let expected = json!({
-        "type": "line",
-        "point": [1.0, 2.0],
-        "slope": [3.0, 4.0]
-    });
+    let expected = serde_json::to_string(&json!(
+        {
+            "type": "line",
+            "point": [1.0, 2.0],
+            "slope": [3.0, 4.0]
+        }
+    ))
+    .unwrap();
 
-    assert_eq!(serde_json::from_str::<Value>(&json).unwrap(), expected);
+    assert_eq!(json, expected);
 }
 
 #[test]
@@ -102,13 +105,16 @@ fn serialize_curve_circle() {
         radius: 3.0,
     };
     let json = serde_json::to_string(&curve).expect("serialization should succeed");
-    let expected = json!({
-        "type": "circle",
-        "center": [1.0, 2.0],
-        "radius": 3.0
-    });
+    let expected = serde_json::to_string(&json!(
+        {
+            "type": "circle",
+            "center": [1.0, 2.0],
+            "radius": 3.0
+        }
+    ))
+    .unwrap();
 
-    assert_eq!(serde_json::from_str::<Value>(&json).unwrap(), expected);
+    assert_eq!(json, expected);
 }
 
 #[test]
