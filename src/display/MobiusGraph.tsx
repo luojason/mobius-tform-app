@@ -4,6 +4,8 @@ import { Complex, Extent2d } from "../model/coord";
 import { useElementExtent } from "../hooks/useElementExtent";
 import { GraphCanvas } from "./GraphCanvas";
 import { MovablePoint } from "./MovablePoint";
+import { ExtComplex } from "../model/geometry";
+import { ControlPointKey, GlobalState, GlobalStateDispatch } from "../hooks/useGlobalState";
 
 // TODO: this needs a proper value based off initial window width/height
 // unless we can confirm that useElementExtent updates immediately on first load
@@ -12,27 +14,38 @@ const INITIAL_EXTENT: Extent2d = {
     height: 100,
 };
 
-type ValuePair = [Complex, (c: Complex) => void];
+export type ValuePair = [Complex, (c: Complex) => void];
 
 interface MobiusGraphProps {
-    readonly value1: ValuePair;
-    readonly value2: ValuePair;
-    readonly value3: ValuePair;
+    readonly globalState: GlobalState;
+    readonly dispatch: GlobalStateDispatch;
 }
 
 /**
  * Renders a visualization of the current Mobius transformation.
  */
-export function MobiusGraph({ value1, value2, value3 }: MobiusGraphProps) {
+export function MobiusGraph({ globalState, dispatch }: MobiusGraphProps) {
     const ref = useRef<HTMLDivElement>(null);
     const extent = useElementExtent(ref, INITIAL_EXTENT);
 
+    const points = (['val1', 'val2', 'val3'] as ControlPointKey[]).map((key) => {
+        const action = (c: ExtComplex) => dispatch({
+            type: 'set-mapping',
+            key: key,
+            out: c,
+        });
+        return <MovablePoint
+            key={key}
+            value={globalState.points[key].out}
+            onValueChange={action}
+            containingExtent={extent}
+        />;
+    });
+
     return (
         <div ref={ref} className={styles.graphContainer}>
-            <GraphCanvas extent={extent} />
-            <MovablePoint value={value1[0]} setValue={value1[1]} containingExtent={extent} />
-            <MovablePoint value={value2[0]} setValue={value2[1]} containingExtent={extent} />
-            <MovablePoint value={value3[0]} setValue={value3[1]} containingExtent={extent} />
+            <GraphCanvas extent={extent} curves={globalState.curves} />
+            {points}
         </div>
     );
 }

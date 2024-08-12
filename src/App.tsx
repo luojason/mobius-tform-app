@@ -1,25 +1,25 @@
-import { useState } from "react";
 import { MobiusGraph } from "./display/MobiusGraph";
 import { ControlPointDisplay } from "./sidebar/ControlPointDisplay";
-import { Complex } from "./model/coord";
+import { useGlobalState } from "./hooks/useGlobalState";
 
 export function App() {
-    const value1 = useState<Complex>([0, 0]);
-    const value2 = useState<Complex>([0, 0]);
-    const value3 = useState<Complex>([0, 0]);
-
-    const values = {
-        value1: value1,
-        value2: value2,
-        value3: value3,
-    }
+    const [globalState, dispatch] = useGlobalState({
+        points: {
+            val1: { in: [0, 0], out: [0, 0]},
+            val2: { in: [5, 0], out: [5, 0]},
+            val3: { in: [0, 5], out: [0, 5]},
+        },
+        // TODO: compute gridlines on first load
+        curves: [],
+        exists: true
+    });
 
     return (
         <>
-            <MobiusGraph {...values} />
-            <ControlPointDisplay value={value1[0]} />
-            <ControlPointDisplay value={value2[0]} />
-            <ControlPointDisplay value={value3[0]} />
+            <MobiusGraph globalState={globalState} dispatch={dispatch} />
+            <ControlPointDisplay value={globalState.points.val1.out} />
+            <ControlPointDisplay value={globalState.points.val2.out} />
+            <ControlPointDisplay value={globalState.points.val3.out} />
         </>
     )
 }

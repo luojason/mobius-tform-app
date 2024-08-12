@@ -53,8 +53,9 @@ pub fn matrix_to_curve(m: &Matrix2<Complexf>) -> Curve {
     let min_pt = -min1 / min0;
     let ratio_sqr = min_norm_sqr / maj_norm_sqr; // note that ratio_sqr < 1
 
-    // if leading coefficients have the same norm, the matrix describes a line
-    if approx::relative_eq!(1.0, ratio_sqr) {
+    // if leading coefficients have (approximately) the same norm, the matrix describes a line
+    // NOTE: can fine-tune this threshold to prevent circles with excessively large radii from being generated
+    if approx::relative_eq!(1.0, ratio_sqr, max_relative = 0.001) {
         return Curve::Line {
             point: 0.5 * (maj_pt + min_pt),
             slope: (maj_pt - min_pt) * Complexf::I,
@@ -107,7 +108,14 @@ pub fn compute_mobius_tform(
     let map_to_outputs = compute_partial_mobius_tform(outputs).try_inverse()?;
     let transform = map_to_outputs * map_from_inputs;
 
-    if approx::abs_diff_eq!(Complexf::ZERO, transform.determinant()) {
+    // NOTE: can fine-tune this threshold to determine when a transformation counts as "singular".
+    // higher thresholds will prevent curves from becoming visibly inaccurate as the input/output pairs approach each other,
+    // but will reduce the range of transformations that can be computed.
+    if approx::abs_diff_eq!(
+        Complexf::ZERO,
+        transform.determinant(),
+        epsilon = f64::EPSILON * 5.0
+    ) {
         None
     } else {
         Some(transform)

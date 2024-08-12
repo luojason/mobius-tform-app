@@ -1,15 +1,17 @@
 import { useEffect, useRef } from "react";
 import { Extent2d, PIXELS_PER_UNIT } from "../model/coord";
 import styles from "./graph.module.css";
+import { Curve, drawCurve } from "../model/geometry";
 
 interface GraphCanvasProps {
     readonly extent: Extent2d;
+    readonly curves: Curve[];
 }
 
 /**
  * Displays a 2d grid and draws the Mobius transformation contour lines via the Canvas API.
  */
-export function GraphCanvas({ extent }: GraphCanvasProps) {
+export function GraphCanvas({ extent, curves }: GraphCanvasProps) {
     const ref = useRef<CanvasRenderingContext2D | null>(null);
 
     useEffect(() => {
@@ -20,19 +22,26 @@ export function GraphCanvas({ extent }: GraphCanvasProps) {
         }
 
         const handle = window.requestAnimationFrame(() => {
+            // TODO: do not update width/height unless necessary
             // set attributes outside of react to synchronize with requestAnimationFrame
             // and prevent flickering when resizing.
             ctxt.canvas.width = Math.floor(extent.width);
             ctxt.canvas.height = Math.floor(extent.height);
-            ctxt.setTransform(1, 0, 0, 1, extent.width / 2, extent.height / 2);
-    
+            ctxt.setTransform(1, 0, 0, -1, extent.width / 2, extent.height / 2);
+
+            ctxt.strokeStyle = 'black';
             drawGridlines(ctxt);
+
+            ctxt.strokeStyle = 'blue';
+            for (const curve of curves) {
+                drawCurve(ctxt, curve, extent);
+            }
         });
 
         return () => {
             window.cancelAnimationFrame(handle);
         };
-    }, [extent]);
+    }, [extent, curves]);
 
     function getContextFromRef(element: HTMLCanvasElement | null) {
         if (element === null) {
