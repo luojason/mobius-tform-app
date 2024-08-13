@@ -22,12 +22,16 @@ export function GraphCanvas({ extent, curves }: GraphCanvasProps) {
         }
 
         const handle = window.requestAnimationFrame(() => {
-            // TODO: do not update width/height unless necessary
+            // update width/height it it has changed.
             // set attributes outside of react to synchronize with requestAnimationFrame
             // and prevent flickering when resizing.
-            ctxt.canvas.width = Math.floor(extent.width);
-            ctxt.canvas.height = Math.floor(extent.height);
-            ctxt.setTransform(1, 0, 0, -1, extent.width / 2, extent.height / 2);
+            if (ctxt.canvas.width !== extent.width || ctxt.canvas.height !== extent.height) {
+                ctxt.canvas.width = extent.width;
+                ctxt.canvas.height = extent.height;
+                ctxt.setTransform(1, 0, 0, -1, extent.width / 2, extent.height / 2);
+            }
+
+            ctxt.clearRect(-ctxt.canvas.width / 2, -ctxt.canvas.height / 2, ctxt.canvas.width, ctxt.canvas.height);
 
             ctxt.strokeStyle = 'black';
             drawGridlines(ctxt);
