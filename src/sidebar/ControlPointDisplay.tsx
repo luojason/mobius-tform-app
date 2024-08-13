@@ -1,22 +1,24 @@
+import { SamplePointMapping } from "../hooks/useGlobalState";
 import { ExtComplex } from "../model/geometry";
 
+const DIGITS_OF_PRECISION = 3;
+
 interface DisplayProps {
-    readonly value: ExtComplex;
+    readonly mapping: SamplePointMapping;
 }
 
-export function ControlPointDisplay({ value }: DisplayProps) {
-    // special handling for point at infinity case
-    if (value === 'inf') {
-        return <div>inf</div>;
-    }
-
+export function ControlPointDisplay({ mapping }: DisplayProps) {
     return (
         <div>
-            {"↦"}
-            <input value={value[0]} readOnly={true} />
-            {" + "}
-            <input value={value[1]} readOnly={true} />
-            j
+            {`${display(mapping.in)} ↦ ${display(mapping.out)}`}
         </div>
     )
+}
+
+function display(c: ExtComplex): string {
+    if (c === 'inf') {
+        return 'Infinity';
+    } else {
+        return `${c[0].toFixed(DIGITS_OF_PRECISION)} + ${c[1].toFixed(DIGITS_OF_PRECISION)}i`;
+    }
 }

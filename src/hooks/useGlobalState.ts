@@ -13,7 +13,7 @@ export interface GlobalState {
 }
 
 /** A sample input/output pair for a data point mapped under a Mobius transformation. */
-interface SamplePointMapping {
+export interface SamplePointMapping {
     in: ExtComplex;
     out: ExtComplex;
 }
