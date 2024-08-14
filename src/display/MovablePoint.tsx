@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import * as C from "../model/coord";
 import styles from "./graph.module.css";
-import { ExtComplex } from "../model/geometry";
+import { ExtComplex } from "../model/backend";
 
 interface MovablePointProps {
     readonly value: ExtComplex;
@@ -46,16 +46,12 @@ export function MovablePoint({ value, onValueChange: setValue, containingExtent 
                 }
             }}
             onPointerDown={e => {
-                e.preventDefault();
+                e.preventDefault(); // prevents elements from being highlighted when dragging
                 ref.current!.setPointerCapture(e.pointerId);
                 setClicked(true);
             }}
-            onPointerUp={() => {
-                setClicked(false);
-            }}
-            onPointerCancel={() => {
-                setClicked(false);
-            }}
+            onPointerUp={() => setClicked(false)}
+            onPointerCancel={() => setClicked(false)}
         />
     )
 }

@@ -1,5 +1,4 @@
-import { SamplePointMapping } from "../hooks/useGlobalState";
-import { ExtComplex } from "../model/geometry";
+import { ExtComplex, SamplePointMapping } from "../model/backend";
 
 const DIGITS_OF_PRECISION = 3;
 

@@ -4,8 +4,8 @@ import { Complex, Extent2d } from "../model/coord";
 import { useElementExtent } from "../hooks/useElementExtent";
 import { GraphCanvas } from "./GraphCanvas";
 import { MovablePoint } from "./MovablePoint";
-import { ExtComplex } from "../model/geometry";
-import { ControlPointKey, GlobalState, GlobalStateDispatch } from "../hooks/useGlobalState";
+import { ControlPointKey, ExtComplex, GlobalState } from "../model/backend";
+import { GlobalStateDispatch } from "../hooks/useGlobalState";
 
 // TODO: this needs a proper value based off initial window width/height
 // unless we can confirm that useElementExtent updates immediately on first load

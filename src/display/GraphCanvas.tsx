@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { Extent2d, PIXELS_PER_UNIT } from "../model/coord";
 import styles from "./graph.module.css";
-import { Curve, drawCurve } from "../model/geometry";
+import { Curve } from "../model/backend";
 
 interface GraphCanvasProps {
     readonly extent: Extent2d;
@@ -105,5 +105,33 @@ function drawGridlines(ctxt: CanvasRenderingContext2D) {
         ctxt.moveTo(-x, -height);
         ctxt.lineTo(-x, height);
         ctxt.stroke();
+    }
+}
+
+/** Draw a curve onto a 2D Canvas. */
+export function drawCurve(ctxt: CanvasRenderingContext2D, curve: Curve, extent: Extent2d) {
+    // units are multiplied by PIXELS_PER_UNIT to convert to the screen coordinate's spacing
+    switch (curve.type) {
+        case 'circle': {
+            ctxt.beginPath();
+            ctxt.arc(
+                curve.center[0] * PIXELS_PER_UNIT,
+                curve.center[1] * PIXELS_PER_UNIT,
+                curve.radius * PIXELS_PER_UNIT,
+                0, 2 * Math.PI);
+            ctxt.stroke();
+            break;
+        }
+        case 'line': {
+            // use extent to determine how far to extend the line
+            const t = Math.max(extent.width, extent.height) / Math.hypot(curve.slope[0], curve.slope[1]);
+            const x = curve.point[0] * PIXELS_PER_UNIT;
+            const y = curve.point[1] * PIXELS_PER_UNIT;
+            ctxt.beginPath();
+            ctxt.moveTo(x - t * curve.slope[0], y - t * curve.slope[1]);
+            ctxt.lineTo(x + t * curve.slope[0], y + t * curve.slope[1]);
+            ctxt.stroke();
+            break;
+        }
     }
 }
