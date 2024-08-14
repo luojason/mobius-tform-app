@@ -73,13 +73,14 @@ interface GenerateMobiusTransformationResponse {
     curves: Curve[];
 }
 
-interface GenerateMobiusTransformationProps {
+export interface GenerateMobiusTransformationProps {
     points: MappingSet;
 }
 
 /**
  * Calls the backend to generate the Mobius transformation conforming to the props passed in,
  * and computes the action of the transformation on the provided curves.
+ * The promise returned by this function should never reject.
  * @param props All the data requested by the backend.
  * @returns The GlobalState needed to render the Mobius transformation.
  */
