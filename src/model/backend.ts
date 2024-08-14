@@ -105,8 +105,9 @@ export async function generateMobiusTransformation({ points }: GenerateMobiusTra
             exists: true,
         };
     } catch (err) {
-        // error is thrown when no valid Mobius transformation exists for the inputs
-        // TODO: display the error scenario to the user
+        // error is thrown when no valid Mobius transformation exists for the inputs.
+        // in this scenario, set the exists flag to indicate this failure,
+        // and do not return any curves to render
         return {
             points: points,
             curves: [],

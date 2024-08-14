@@ -2,6 +2,7 @@ import { MobiusGraph } from "./display/MobiusGraph";
 import { ControlPointDisplay } from "./sidebar/ControlPointDisplay";
 import { useGlobalState } from "./hooks/useGlobalState";
 import { GlobalState } from "./model/backend";
+import { ErrorDisplay } from "./sidebar/ErrorDisplay";
 
 interface AppProps {
     initial: GlobalState;
@@ -16,6 +17,7 @@ export function App({ initial }: AppProps) {
             <ControlPointDisplay mapping={globalState.points.val1} />
             <ControlPointDisplay mapping={globalState.points.val2} />
             <ControlPointDisplay mapping={globalState.points.val3} />
+            {(globalState.exists) ? null : <ErrorDisplay />}
         </>
     )
 }

@@ -114,7 +114,7 @@ pub fn compute_mobius_tform(
     if approx::abs_diff_eq!(
         Complexf::ZERO,
         transform.determinant(),
-        epsilon = f64::EPSILON * 5.0
+        epsilon = f64::EPSILON * 100.0
     ) {
         None
     } else {
