@@ -38,7 +38,7 @@ export function MobiusGraph({ globalState, dispatch }: MobiusGraphProps) {
             key={key}
             value={globalState.points[key].out}
             onChange={action}
-            containingExtent={extent}
+            container={extent}
         />;
     });
 

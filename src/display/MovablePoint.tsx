@@ -6,7 +6,7 @@ import { ExtComplex } from "../model/backend";
 interface MovablePointProps {
     readonly value: ExtComplex;
     readonly onChange: (c: C.Complex) => void;
-    readonly containingExtent: C.Extent2d;
+    readonly container: C.Extent2d;
 }
 
 /**
@@ -15,11 +15,10 @@ interface MovablePointProps {
  * NOTE: for the transform to be computed correctly,
  * the parent element for this component should have 0 padding and 0 border.
  */
-export function MovablePoint({ value, onChange, containingExtent }: MovablePointProps) {
+export function MovablePoint({ value, onChange, container }: MovablePointProps) {
     const ref = useRef<HTMLDivElement>(null);
     const [clicked, setClicked] = useState(false);
 
-    // TODO: do not render point when out of bounds
     // render the position of the point via CSS transform
     let style: React.CSSProperties;
     if (value === 'inf') {
@@ -29,10 +28,17 @@ export function MovablePoint({ value, onChange, containingExtent }: MovablePoint
         };
     } else {
         // else value is finite
-        const position = C.transformPhysical(value, containingExtent);
-        style = {
-            transform: `translate(${position.x}px, ${position.y}px)`
-        };
+        const position = C.transformPhysical(value, container);
+        if (inBounds(position, container)) {
+            style = {
+                transform: `translate(${position.x}px, ${position.y}px)`
+            };
+        } else {
+            // if position lies outside the parent element's bounds, do not display it either
+            style = {
+                display: 'none'
+            };
+        }
     }
 
     return (
@@ -43,8 +49,8 @@ export function MovablePoint({ value, onChange, containingExtent }: MovablePoint
             onPointerMove={e => {
                 if (clicked) {
                     let p = getPosition(e, ref.current!.parentElement!);
-                    p = C.constrainCoord(p, containingExtent);
-                    const c = C.transformComplex(p, containingExtent);
+                    p = C.constrainCoord(p, container);
+                    const c = C.transformComplex(p, container);
                     onChange(c);
                 }
             }}
@@ -59,10 +65,16 @@ export function MovablePoint({ value, onChange, containingExtent }: MovablePoint
     )
 }
 
+/** Convert client coordinates to positional coordinates. */
 function getPosition(e: React.PointerEvent<Element>, parent: Element): C.Position2d {
     const rect = parent.getBoundingClientRect();
     return {
         x: e.clientX - rect.left,
         y: e.clientY - rect.top,
     }
+}
+
+/** Checks if a positional coordinate lies within some extent */
+function inBounds(p: C.Position2d, extent: C.Extent2d): boolean {
+    return p.x >= 0 && p.x <= extent.width && p.y >= 0 && p.y <= extent.height;
 }
