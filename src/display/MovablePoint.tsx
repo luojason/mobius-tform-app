@@ -5,17 +5,21 @@ import { ExtComplex } from "../model/backend";
 
 interface MovablePointProps {
     readonly value: ExtComplex;
-    readonly onValueChange: (c: C.Complex) => void;
+    readonly onChange: (c: C.Complex) => void;
     readonly containingExtent: C.Extent2d;
 }
 
 /**
  * Displays a control point for the Mobius transformation which can be moved.
+ * 
+ * NOTE: for the transform to be computed correctly,
+ * the parent element for this component should have 0 padding and 0 border.
  */
-export function MovablePoint({ value, onValueChange: setValue, containingExtent }: MovablePointProps) {
+export function MovablePoint({ value, onChange, containingExtent }: MovablePointProps) {
     const ref = useRef<HTMLDivElement>(null);
     const [clicked, setClicked] = useState(false);
 
+    // TODO: do not render point when out of bounds
     // render the position of the point via CSS transform
     let style: React.CSSProperties;
     if (value === 'inf') {
@@ -41,8 +45,7 @@ export function MovablePoint({ value, onValueChange: setValue, containingExtent 
                     let p = getPosition(e, ref.current!.parentElement!);
                     p = C.constrainCoord(p, containingExtent);
                     const c = C.transformComplex(p, containingExtent);
-
-                    setValue(c);
+                    onChange(c);
                 }
             }}
             onPointerDown={e => {
@@ -56,7 +59,6 @@ export function MovablePoint({ value, onValueChange: setValue, containingExtent 
     )
 }
 
-// TODO: use content box somehow, OR ensure padding/border of containing div is 0
 function getPosition(e: React.PointerEvent<Element>, parent: Element): C.Position2d {
     const rect = parent.getBoundingClientRect();
     return {

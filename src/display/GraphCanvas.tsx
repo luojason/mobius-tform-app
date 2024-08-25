@@ -33,10 +33,11 @@ export function GraphCanvas({ extent, curves }: GraphCanvasProps) {
 
             ctxt.clearRect(-ctxt.canvas.width / 2, -ctxt.canvas.height / 2, ctxt.canvas.width, ctxt.canvas.height);
 
-            ctxt.strokeStyle = 'black';
+            // TODO: obtain color from theme context state rather than hardcoded
+            ctxt.strokeStyle = '#525670';
             drawGridlines(ctxt);
 
-            ctxt.strokeStyle = 'blue';
+            ctxt.strokeStyle = '#757D92';
             for (const curve of curves) {
                 drawCurve(ctxt, curve, extent);
             }

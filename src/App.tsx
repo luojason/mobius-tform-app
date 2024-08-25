@@ -1,23 +1,20 @@
 import { MobiusGraph } from "./display/MobiusGraph";
-import { ControlPointDisplay } from "./sidebar/ControlPointDisplay";
 import { useGlobalState } from "./hooks/useGlobalState";
 import { GlobalState } from "./model/backend";
-import { ErrorDisplay } from "./sidebar/ErrorDisplay";
+import { Sidebar } from "./sidebar/Sidebar";
+import styles from "./app.module.css";
 
 interface AppProps {
-    initial: GlobalState;
+    readonly initial: GlobalState;
 }
 
 export function App({ initial }: AppProps) {
     const [globalState, dispatch] = useGlobalState(initial);
 
     return (
-        <>
+        <div className={styles.app}>
             <MobiusGraph globalState={globalState} dispatch={dispatch} />
-            <ControlPointDisplay mapping={globalState.points.val1} />
-            <ControlPointDisplay mapping={globalState.points.val2} />
-            <ControlPointDisplay mapping={globalState.points.val3} />
-            {(globalState.exists) ? null : <ErrorDisplay />}
-        </>
+            <Sidebar globalState={globalState} />
+        </div>
     )
 }

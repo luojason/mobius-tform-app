@@ -1,0 +1,25 @@
+.sidebar {
+    flex: 1 0 10em;
+    max-width: 18em;
+    padding-inline: 1rem;
+    background-color: var(--background-2);
+    overflow: auto;
+}
+
+.pointDisplay {
+    margin-block: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 5px;
+    text-align: center;
+    background-color: var(--background-3);
+}
+
+.error {
+    box-sizing: border-box;
+    margin-block: 1.5rem;
+    padding: 0.5rem;
+    border: 2px solid var(--alert-color);
+    border-radius: 5px;
+    background-color: var(--alert-background);
+    color: var(--alert-color);
+}

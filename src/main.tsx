@@ -1,10 +1,11 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { App } from "./App";
-import { generateMobiusTransformation, GenerateMobiusTransformationProps } from "./model/backend";
+import * as B from "./model/backend";
+import "./root.css";
 
 /** Initial configuration of the control points. */
-const INITIAL_MAPPING: GenerateMobiusTransformationProps = {
+const INITIAL_MAPPING: B.GenerateMobiusTransformationProps = {
     points: {
         val1: { in: [0, 0], out: [0, 0] },
         val2: { in: [5, 0], out: [5, 0] },
@@ -13,7 +14,7 @@ const INITIAL_MAPPING: GenerateMobiusTransformationProps = {
 };
 
 // first call backend to generate the initial set of curves to display, prior to rendering
-generateMobiusTransformation(INITIAL_MAPPING).then(initialState =>
+B.generateMobiusTransformation(INITIAL_MAPPING).then(initialState =>
     createRoot(document.getElementById("root") as HTMLElement).render(
         <StrictMode>
             <App initial={initialState} />

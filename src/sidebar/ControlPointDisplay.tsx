@@ -1,4 +1,5 @@
 import { ExtComplex, SamplePointMapping } from "../model/backend";
+import styles from "./sidebar.module.css";
 
 const DIGITS_OF_PRECISION = 3;
 
@@ -8,7 +9,7 @@ interface DisplayProps {
 
 export function ControlPointDisplay({ mapping }: DisplayProps) {
     return (
-        <div>
+        <div className={styles.pointDisplay}>
             {`${display(mapping.in)} ↦ ${display(mapping.out)}`}
         </div>
     )
