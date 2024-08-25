@@ -32,6 +32,12 @@ interface Line {
 /** A curve which is either a circle or a line. Can be drawn onto a canvas. */
 export type Curve = Circle | Line;
 
+/** Defines the names of valid curve families recognized by the backend. */
+export type CurveFamilyKey = 'xy';
+
+/** Contains a set of curve families transformed under the current Mobius transformation being rendered. */
+export type CurveSet = Partial<Record<CurveFamilyKey, Curve[]>>;
+
 /** A sample input/output pair for a data point mapped under a Mobius transformation. */
 export interface SamplePointMapping {
     in: ExtComplex;
@@ -64,13 +70,13 @@ export type MappingSet = {
  */
 export interface GlobalState {
     points: MappingSet;
-    curves: Curve[];
+    curves: CurveSet;
     exists: boolean;
 }
 
 /** The response schema for the backend API `generate_mobius_transformation`. */
 interface GenerateMobiusTransformationResponse {
-    curves: Curve[];
+    curves: CurveSet;
 }
 
 export interface GenerateMobiusTransformationProps {
@@ -97,7 +103,8 @@ export async function generateMobiusTransformation({ points }: GenerateMobiusTra
                 points.val1.out,
                 points.val2.out,
                 points.val3.out,
-            ]
+            ],
+            curves: ['xy'],
         }) as GenerateMobiusTransformationResponse;
         return {
             points: points,
@@ -106,11 +113,10 @@ export async function generateMobiusTransformation({ points }: GenerateMobiusTra
         };
     } catch (err) {
         // error is thrown when no valid Mobius transformation exists for the inputs.
-        // in this scenario, set the exists flag to indicate this failure,
-        // and do not return any curves to render
+        // in this scenario, set the exists flag to indicate this failure, and do not return any curves to render
         return {
             points: points,
-            curves: [],
+            curves: {},
             exists: false,
         };
     }

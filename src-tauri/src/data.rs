@@ -4,7 +4,14 @@ use nalgebra::Matrix2;
 
 use super::*;
 
-pub const XY_GRIDLINES: &[Matrix2<Complexf>] = &[
+pub fn lookup_curve_family(name: &str) -> Option<&'static [Matrix2<Complexf>]> {
+    match name {
+        "xy" => Some(XY_GRIDLINES),
+        _ => None,
+    }
+}
+
+const XY_GRIDLINES: &[Matrix2<Complexf>] = &[
     /* y-axis lines */
     Matrix2::new(
         Complexf::ONE,

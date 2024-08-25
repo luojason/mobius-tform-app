@@ -1,11 +1,11 @@
 import { useEffect, useRef } from "react";
 import { Extent2d, PIXELS_PER_UNIT } from "../model/coord";
 import styles from "./graph.module.css";
-import { Curve } from "../model/backend";
+import { Curve, CurveSet } from "../model/backend";
 
 interface GraphCanvasProps {
     readonly extent: Extent2d;
-    readonly curves: Curve[];
+    readonly curves: CurveSet;
 }
 
 /**
@@ -38,8 +38,11 @@ export function GraphCanvas({ extent, curves }: GraphCanvasProps) {
             drawGridlines(ctxt);
 
             ctxt.strokeStyle = '#757D92';
-            for (const curve of curves) {
-                drawCurve(ctxt, curve, extent);
+            // TODO: add toggles for curve families
+            for (const curveList of Object.values(curves)) {
+                for (const curve of curveList) {
+                    drawCurve(ctxt, curve, extent);
+                }
             }
         });
 
@@ -110,7 +113,7 @@ function drawGridlines(ctxt: CanvasRenderingContext2D) {
 }
 
 /** Draw a curve onto a 2D Canvas. */
-export function drawCurve(ctxt: CanvasRenderingContext2D, curve: Curve, extent: Extent2d) {
+function drawCurve(ctxt: CanvasRenderingContext2D, curve: Curve, extent: Extent2d) {
     // units are multiplied by PIXELS_PER_UNIT to convert to the screen coordinate's spacing
     switch (curve.type) {
         case 'circle': {
