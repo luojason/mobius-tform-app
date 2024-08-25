@@ -38,7 +38,6 @@ export function GraphCanvas({ extent, curves }: GraphCanvasProps) {
             drawGridlines(ctxt);
 
             ctxt.strokeStyle = '#757D92';
-            // TODO: add toggles for curve families
             for (const curveList of Object.values(curves)) {
                 for (const curve of curveList) {
                     drawCurve(ctxt, curve, extent);

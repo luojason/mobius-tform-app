@@ -11,6 +11,7 @@ const INITIAL_MAPPING: B.GenerateMobiusTransformationProps = {
         val2: { in: [5, 0], out: [5, 0] },
         val3: { in: [0, 5], out: [0, 5] },
     },
+    usedCurves: ['xy'],
 };
 
 // first call backend to generate the initial set of curves to display, prior to rendering

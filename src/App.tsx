@@ -14,7 +14,7 @@ export function App({ initial }: AppProps) {
     return (
         <div className={styles.app}>
             <MobiusGraph globalState={globalState} dispatch={dispatch} />
-            <Sidebar globalState={globalState} />
+            <Sidebar globalState={globalState} dispatch={dispatch} />
         </div>
     )
 }

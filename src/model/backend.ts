@@ -32,8 +32,11 @@ interface Line {
 /** A curve which is either a circle or a line. Can be drawn onto a canvas. */
 export type Curve = Circle | Line;
 
-/** Defines the names of valid curve families recognized by the backend. */
-export type CurveFamilyKey = 'xy';
+/** Defines the keys for valid curve families recognized by the backend, as well as their display names. */
+export const CURVE_FAMILY_NAMES = {
+    xy: 'XY gridlines',
+} as const;
+export type CurveFamilyKey = keyof typeof CURVE_FAMILY_NAMES;
 
 /** Contains a set of curve families transformed under the current Mobius transformation being rendered. */
 export type CurveSet = Partial<Record<CurveFamilyKey, Curve[]>>;
@@ -69,8 +72,17 @@ export type MappingSet = {
  * and is the main global state returned from the custom hook in this file.
  */
 export interface GlobalState {
+    /** The set of sample mapping points based on which the Mobius transformation is determined. */
     points: MappingSet;
+
+    /**
+     * The set of curve transformed under the given Mobius tform to be rendered.
+     * This also determines which curve families are currently enabled.
+     * The order of curve families in this object is not guaranteed.
+     */
     curves: CurveSet;
+
+    /** Whether or not a valid Mobius transformation exists for the provided `MappingSet`. Used as an error flag. */
     exists: boolean;
 }
 
@@ -79,8 +91,13 @@ interface GenerateMobiusTransformationResponse {
     curves: CurveSet;
 }
 
+/** The request schema for `generateMobiusTransformation`. */
 export interface GenerateMobiusTransformationProps {
+    /** The set of sample mapping points based on which the Mobius transformation is determined. */
     points: MappingSet;
+
+    /** The list of curve families to be rendered. These determine what is included in the `curves` property. */
+    usedCurves: CurveFamilyKey[];
 }
 
 /**
@@ -90,7 +107,7 @@ export interface GenerateMobiusTransformationProps {
  * @param props All the data requested by the backend.
  * @returns The GlobalState needed to render the Mobius transformation.
  */
-export async function generateMobiusTransformation({ points }: GenerateMobiusTransformationProps): Promise<GlobalState> {
+export async function generateMobiusTransformation({ points, usedCurves }: GenerateMobiusTransformationProps): Promise<GlobalState> {
     try {
         // make call to backend
         const response = await invoke('generate_mobius_transformation', {
@@ -104,7 +121,7 @@ export async function generateMobiusTransformation({ points }: GenerateMobiusTra
                 points.val2.out,
                 points.val3.out,
             ],
-            curves: ['xy'],
+            curves: usedCurves,
         }) as GenerateMobiusTransformationResponse;
         return {
             points: points,
