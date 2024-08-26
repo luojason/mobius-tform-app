@@ -28,15 +28,15 @@ export function MobiusGraph({ globalState, dispatch }: MobiusGraphProps) {
     const ref = useRef<HTMLDivElement>(null);
     const extent = useElementExtent(ref, INITIAL_EXTENT);
 
-    const points = (['val1', 'val2', 'val3'] as ControlPointKey[]).map((key) => {
+    const points = Object.entries(globalState.points).map(([key, value]) => {
         const action = (c: ExtComplex) => dispatch({
             type: 'set-mapping',
-            key: key,
+            key: key as ControlPointKey,
             out: c,
         });
         return <MovablePoint
             key={key}
-            value={globalState.points[key].out}
+            value={value.out}
             onChange={action}
             container={extent}
         />;

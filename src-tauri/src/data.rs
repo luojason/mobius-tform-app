@@ -126,7 +126,8 @@ const XY_GRIDLINES: &[Matrix2<Complexf>] = &[
 ];
 
 /// sqrt(3) made available as a max precision constant for use in const trigonometric expressions
-const SQRT3: f64 = 1.7320508075688771931766041234368458390235900878906250f64;
+/// The constant provided in [`std::f64::consts`] is still experimental
+const SQRT_3: f64 = 1.7320508075688771931766041234368458390235900878906250f64;
 
 /// Generates the 2x2 matrix representation of the line `run * y = rise * x`
 macro_rules! radial_line {
@@ -154,11 +155,11 @@ macro_rules! centered_circle {
 
 const POLAR_GRIDLINES: &[Matrix2<Complexf>] = &[
     /* radial lines */
-    radial_line!(rise = -SQRT3, run = 1.0), // theta = -2pi/3
-    radial_line!(rise = -1.0, run = SQRT3), // theta = -pi/3
+    radial_line!(rise = -SQRT_3, run = 1.0), // theta = -2pi/3
+    radial_line!(rise = -1.0, run = SQRT_3), // theta = -pi/3
     radial_line!(rise = 0.0, run = 1.0),    // theta = 0
-    radial_line!(rise = 1.0, run = SQRT3),  // theta = pi/3
-    radial_line!(rise = SQRT3, run = 1.0),  // theta = 2pi/3
+    radial_line!(rise = 1.0, run = SQRT_3),  // theta = pi/3
+    radial_line!(rise = SQRT_3, run = 1.0),  // theta = 2pi/3
     radial_line!(rise = 1.0, run = 0.0),    // theta = pi
     /* circles centered at the origin */
     centered_circle!(1.0),
