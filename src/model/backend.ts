@@ -34,7 +34,8 @@ export type Curve = Circle | Line;
 
 /** Defines the keys for valid curve families recognized by the backend, as well as their display names. */
 export const CURVE_FAMILY_NAMES = {
-    xy: 'XY gridlines',
+    xy: 'Cartesian gridlines',
+    polar: 'Polar gridlines',
 } as const;
 export type CurveFamilyKey = keyof typeof CURVE_FAMILY_NAMES;
 

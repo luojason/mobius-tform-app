@@ -8,8 +8,8 @@ import "./root.css";
 const INITIAL_MAPPING: B.GenerateMobiusTransformationProps = {
     points: {
         val1: { in: [0, 0], out: [0, 0] },
-        val2: { in: [5, 0], out: [5, 0] },
-        val3: { in: [0, 5], out: [0, 5] },
+        val2: { in: [-5, 0], out: [-5, 0] },
+        val3: { in: [5, 0], out: [5, 0] },
     },
     usedCurves: ['xy'],
 };

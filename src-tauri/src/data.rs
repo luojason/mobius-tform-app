@@ -11,6 +11,7 @@ pub fn lookup_curve_family(name: &str) -> Option<&'static [Matrix2<Complexf>]> {
 /// Lookup table mapping a name to the family of curves it represents
 const CURVE_FAMILY_MAPPING: phf::Map<&'static str, &'static [Matrix2<Complexf>]> = phf::phf_map! {
     "xy" => XY_GRIDLINES,
+    "polar" => POLAR_GRIDLINES,
 };
 
 /// Generates the 2x2 matrix representation of the line equation `x = c`
@@ -122,4 +123,62 @@ const XY_GRIDLINES: &[Matrix2<Complexf>] = &[
     x_axis_gridline!(18.0),
     x_axis_gridline!(19.0),
     x_axis_gridline!(20.0),
+];
+
+/// sqrt(3) made available as a max precision constant for use in const trigonometric expressions
+const SQRT3: f64 = 1.7320508075688771931766041234368458390235900878906250f64;
+
+/// Generates the 2x2 matrix representation of the line `run * y = rise * x`
+macro_rules! radial_line {
+    (rise = $a:expr, run = $b:expr) => {{
+        Matrix2::new(
+            Complexf::ONE,
+            Complexf::new(-$a, $b),
+            Complexf::ONE,
+            Complexf::new($a, -$b),
+        )
+    }};
+}
+
+/// Generates the 2x2 matrix representation of the circle `|z| = r`
+macro_rules! centered_circle {
+    ($r:expr) => {{
+        Matrix2::new(
+            Complexf::ONE,
+            Complexf::new(-2.0 * $r, 0.0),
+            Complexf::new(2.0, 0.0),
+            Complexf::new(-$r, 0.0),
+        )
+    }};
+}
+
+const POLAR_GRIDLINES: &[Matrix2<Complexf>] = &[
+    /* radial lines */
+    radial_line!(rise = -SQRT3, run = 1.0), // theta = -2pi/3
+    radial_line!(rise = -1.0, run = SQRT3), // theta = -pi/3
+    radial_line!(rise = 0.0, run = 1.0),    // theta = 0
+    radial_line!(rise = 1.0, run = SQRT3),  // theta = pi/3
+    radial_line!(rise = SQRT3, run = 1.0),  // theta = 2pi/3
+    radial_line!(rise = 1.0, run = 0.0),    // theta = pi
+    /* circles centered at the origin */
+    centered_circle!(1.0),
+    centered_circle!(2.0),
+    centered_circle!(3.0),
+    centered_circle!(4.0),
+    centered_circle!(5.0),
+    centered_circle!(6.0),
+    centered_circle!(7.0),
+    centered_circle!(8.0),
+    centered_circle!(9.0),
+    centered_circle!(10.0),
+    centered_circle!(11.0),
+    centered_circle!(12.0),
+    centered_circle!(13.0),
+    centered_circle!(14.0),
+    centered_circle!(15.0),
+    centered_circle!(16.0),
+    centered_circle!(17.0),
+    centered_circle!(18.0),
+    centered_circle!(19.0),
+    centered_circle!(20.0),
 ];
