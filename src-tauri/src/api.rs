@@ -21,11 +21,11 @@ use super::*;
 ///  - `outputs`: output control points
 ///  - `curves`: list of curve families that should be rendered
 #[tauri::command]
-pub fn generate_mobius_transformation(
+pub fn generate_mobius_transformation<'a>(
     inputs: [ExtComplex; 3],
     outputs: [ExtComplex; 3],
-    curves: Vec<&str>,
-) -> Result<GenerateMobiusResponse, Error> {
+    curves: Vec<&'a str>,
+) -> Result<GenerateMobiusResponse<'a>, Error> {
     // Compute inverse transform since that is what is needed for transforming the curves.
     // In more detail, curves are represented as a constraint on the *input* of a function
     // (as opposed to a transformation on the *output* of a function), hence it is contravariant w.r.t. transformations.
