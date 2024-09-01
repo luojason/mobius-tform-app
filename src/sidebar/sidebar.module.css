@@ -14,16 +14,6 @@
     background-color: var(--background-3);
 }
 
-.error {
-    box-sizing: border-box;
-    margin-block: 1.5rem;
-    border: 2px solid var(--alert-color);
-    border-radius: var(--border-radius);
-    padding: 0.5rem;
-    background-color: var(--alert-background);
-    color: var(--alert-color);
-}
-
 .curveToggleContainer {
     display: grid;
     grid-template-columns: max-content auto;

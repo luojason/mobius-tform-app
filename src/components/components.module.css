@@ -1,3 +1,21 @@
+.alert {
+    box-sizing: border-box;
+    margin-block: 1.5rem;
+    border: 2px solid var(--alert-color);
+    border-radius: var(--border-radius);
+    padding: 0.5rem;
+    background-color: var(--alert-background);
+    color: var(--alert-color);
+}
+
+.alertSymbol {
+    width: 1.75rem;
+    height: 1.75rem;
+    float: left;
+    margin: 0.2rem;
+    margin-right: 0.5rem;
+}
+
 .checkbox {
     appearance: none;
     display: grid;

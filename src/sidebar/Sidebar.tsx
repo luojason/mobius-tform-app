@@ -2,7 +2,7 @@ import { GlobalStateDispatch } from "../hooks/useGlobalState";
 import { GlobalState } from "../model/backend";
 import { ControlPointDisplay } from "./ControlPointDisplay";
 import { CurveFamilyToggle } from "./CurveFamilyToggle";
-import { ErrorDisplay } from "./ErrorDisplay";
+import { AlertDisplay } from "../components/AlertDisplay";
 import styles from "./sidebar.module.css";
 
 interface SidebarProps {
@@ -10,6 +10,7 @@ interface SidebarProps {
     readonly dispatch: GlobalStateDispatch;
 }
 
+/** The sidebar contains most of the non-GraphCanvas UI controls. */
 export function Sidebar({ globalState, dispatch }: SidebarProps) {
     return (
         <div className={styles.sidebar}>
@@ -21,5 +22,18 @@ export function Sidebar({ globalState, dispatch }: SidebarProps) {
             <ControlPointDisplay mapping={globalState.points.val3} />
             {(globalState.exists) ? null : <ErrorDisplay />}
         </div>
+    )
+}
+
+/** Custom error message when Mobius transformation does not exist. */
+function ErrorDisplay() {
+    return (
+        <AlertDisplay>
+            <strong>Warning. </strong>
+            Transformation matrix is nearly singular.
+            Mobius transformations are one-to-one mappings,
+            and do not exist/behave well when two inputs map to the same (or nearly the same) output.
+            Move some of the control points farther away from each other to correct this.
+        </AlertDisplay>
     )
 }
