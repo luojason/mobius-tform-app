@@ -7,11 +7,12 @@ import { MovablePoint } from "./MovablePoint";
 import { ControlPointKey, ExtComplex, GlobalState } from "../model/backend";
 import { GlobalStateDispatch } from "../hooks/useGlobalState";
 
-// TODO: this needs a proper value based off initial window width/height
-// unless we can confirm that useElementExtent updates immediately on first load
+// Initial value based on 1100x720 window size.
+// The extent will auto-update after loading, but setting the right initial size will prevent
+// the brief flicker of incorrect canvas scaling before the correct dimensions are updated.
 const INITIAL_EXTENT: Extent2d = {
-    width: 100,
-    height: 100,
+    width: 760,
+    height: 644,
 };
 
 export type ValuePair = [Complex, (c: Complex) => void];
