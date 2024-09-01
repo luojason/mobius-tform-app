@@ -17,12 +17,12 @@
     height: .6rem;
     box-shadow: inset 1rem 1rem currentColor;
     /* hide inner box when unchecked */
-    transform: scale(0);
+    display: none;
 
     /* for windows high contrast mode */
     background-color: CanvasText;
 }
 
 .checkbox:checked::before {
-    transform: scale(1);
+    display: unset;
 }
