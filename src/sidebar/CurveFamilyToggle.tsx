@@ -1,11 +1,14 @@
+import { CheckBox } from "../components/CheckBox";
 import { GlobalStateDispatch } from "../hooks/useGlobalState";
 import { CURVE_FAMILY_NAMES, CurveFamilyKey, GlobalState } from "../model/backend";
+import styles from "./sidebar.module.css";
 
 interface CurveFamilyToggleProps {
     readonly globalState: GlobalState;
     readonly dispatch: GlobalStateDispatch;
 }
 
+/** Creates list of curve families that can be toggled on and off in the GraphCanvas. */
 export function CurveFamilyToggle({ globalState, dispatch }: CurveFamilyToggleProps) {
     const listItems = Object.entries(CURVE_FAMILY_NAMES).map(([key, name]) => {
         const checked = globalState.curves[key as CurveFamilyKey] !== undefined;
@@ -16,8 +19,8 @@ export function CurveFamilyToggle({ globalState, dispatch }: CurveFamilyTogglePr
         })
         return (
             <li key={key}>
-                <label>
-                    <input type='checkbox' checked={checked} onChange={e => action(e.target.checked)}/>
+                <label className={styles.curveToggle}>
+                    <CheckBox checked={checked} onChange={action} />
                     {name}
                 </label>
             </li>
@@ -25,7 +28,7 @@ export function CurveFamilyToggle({ globalState, dispatch }: CurveFamilyTogglePr
     });
 
     return (
-        <ul>
+        <ul className={styles.curveToggleContainer}>
             {listItems}
         </ul>
     )

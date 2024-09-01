@@ -8,8 +8,8 @@
 
 .pointDisplay {
     margin-block: 0.5rem;
+    border-radius: var(--border-radius);
     padding: 0.5rem;
-    border-radius: 5px;
     text-align: center;
     background-color: var(--background-3);
 }
@@ -17,9 +17,31 @@
 .error {
     box-sizing: border-box;
     margin-block: 1.5rem;
-    padding: 0.5rem;
     border: 2px solid var(--alert-color);
-    border-radius: 5px;
+    border-radius: var(--border-radius);
+    padding: 0.5rem;
     background-color: var(--alert-background);
     color: var(--alert-color);
+}
+
+.curveToggleContainer {
+    /* prevent parent-child margin collapse with flow-root */
+    display: flow-root;
+    margin-block: 0.5rem;
+    padding: 0;
+    border-radius: var(--border-radius);
+    background-color: var(--background-3);
+    list-style: none;
+}
+
+.curveToggleContainer>li {
+    margin-block: 1rem;
+    margin-inline: 1.15rem;
+}
+
+.curveToggle {
+    display: grid;
+    grid-template-columns: max-content auto;
+    align-items: center;
+    gap: 0.5rem;
 }

@@ -1,0 +1,28 @@
+.checkbox {
+    appearance: none;
+    display: grid;
+    place-content: center;
+    margin: 0;
+    border: 0.15rem solid currentColor;
+    border-radius: 0.15rem;
+    color: currentColor;
+    width: 1.1rem;
+    height: 1.1rem;
+}
+
+.checkbox::before {
+    content: '';
+    filter: brightness(1.4);
+    width: .6rem;
+    height: .6rem;
+    box-shadow: inset 1rem 1rem currentColor;
+    /* hide inner box when unchecked */
+    transform: scale(0);
+
+    /* for windows high contrast mode */
+    background-color: CanvasText;
+}
+
+.checkbox:checked::before {
+    transform: scale(1);
+}
