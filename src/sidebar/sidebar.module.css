@@ -1,9 +1,30 @@
 .sidebar {
     flex: 1 0 10em;
     max-width: 18em;
-    padding-inline: 1rem;
+    display: flex;
+    gap: 1.5rem;
+    flex-direction: column;
     background-color: var(--background-2);
     overflow: auto;
+}
+
+/* Wrapping the main content in a div to re-enable margin collapsing within the flex container. */
+.sidebarContent {
+    margin-inline: 1rem;
+}
+
+/* Remove margin from last element, spacing will be governed by flex-gap in .sidebar */
+.sidebarContent>*:last-child {
+    margin-block-end: 0;
+}
+
+.sidebar>footer {
+    /* position footer at bottom in flex layout */
+    margin-top: auto;
+    margin-inline: 0;
+    padding: 0.5rem;
+    padding-left: 1.15rem;
+    background-color: var(--background-3);
 }
 
 .pointDisplay {
@@ -33,4 +54,12 @@
 
 .curveToggle {
     display: contents;
+}
+
+.themeToggle {
+    display: grid;
+    grid-template-columns: max-content auto;
+    gap: 0.5rem;
+    align-items: center;
+    font-size: 0.8rem;
 }
