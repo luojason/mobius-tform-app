@@ -1,24 +1,9 @@
 /*
-This file initializes all CSS variables and global CSS properties,
+This file initializes some CSS variables and global CSS properties,
 as well as styling top-level elements not controlled by React.
 */
 
 :root {
-    /* primary background color */
-    --background: #1f2126;
-    /* secondary background color (e.g. for nested elements) */
-    --background-2: #24272d;
-    /* tertiary background color (e.g. for nested elements) */
-    --background-3: #323447;
-    /* primary foreground color (e.g. for text) */
-    --foreground: #8c97c2;
-    /* secondary foreground color */
-    --foreground-2: #757d92;
-    /* alternative background color for elements requiring attention (e.g. errors) */
-    --alert-background: #550e0b;
-    /* alternative text/foreground color for elements requiring attention (e.g. errors) */
-    --alert-color: #c04138;
-
     /* common border radius for text containers (not part of theme) */
     --border-radius: 10px;
 

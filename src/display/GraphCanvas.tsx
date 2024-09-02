@@ -1,7 +1,8 @@
-import { useEffect, useRef } from "react";
+import { useContext, useEffect, useRef } from "react";
 import { Extent2d, PIXELS_PER_UNIT } from "../model/coord";
 import styles from "./graph.module.css";
 import { Curve, CurveSet } from "../model/backend";
+import { ThemeContext } from "../theme/schema";
 
 interface GraphCanvasProps {
     readonly extent: Extent2d;
@@ -13,6 +14,7 @@ interface GraphCanvasProps {
  */
 export function GraphCanvas({ extent, curves }: GraphCanvasProps) {
     const ref = useRef<CanvasRenderingContext2D | null>(null);
+    const theme = useContext(ThemeContext);
 
     useEffect(() => {
         const ctxt = ref.current;
@@ -33,11 +35,10 @@ export function GraphCanvas({ extent, curves }: GraphCanvasProps) {
 
             ctxt.clearRect(-ctxt.canvas.width / 2, -ctxt.canvas.height / 2, ctxt.canvas.width, ctxt.canvas.height);
 
-            // TODO: obtain color from theme context state rather than hardcoded
-            ctxt.strokeStyle = '#525670';
+            ctxt.strokeStyle = theme.background3;
             drawGridlines(ctxt);
 
-            ctxt.strokeStyle = '#757D92';
+            ctxt.strokeStyle = theme.foreground2;
             for (const curveList of Object.values(curves)) {
                 for (const curve of curveList) {
                     drawCurve(ctxt, curve, extent);
@@ -48,7 +49,7 @@ export function GraphCanvas({ extent, curves }: GraphCanvasProps) {
         return () => {
             window.cancelAnimationFrame(handle);
         };
-    }, [extent, curves]);
+    }, [extent, curves, theme]);
 
     function getContextFromRef(element: HTMLCanvasElement | null) {
         if (element === null) {
