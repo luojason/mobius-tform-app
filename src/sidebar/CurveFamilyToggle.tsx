@@ -31,5 +31,5 @@ export function CurveFamilyToggle({ globalState, dispatch }: CurveFamilyTogglePr
         <ul className={styles.curveToggleContainer}>
             {listItems}
         </ul>
-    )
+    );
 }

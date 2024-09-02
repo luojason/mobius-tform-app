@@ -35,10 +35,10 @@ export function GraphCanvas({ extent, curves }: GraphCanvasProps) {
 
             ctxt.clearRect(-ctxt.canvas.width / 2, -ctxt.canvas.height / 2, ctxt.canvas.width, ctxt.canvas.height);
 
-            ctxt.strokeStyle = theme.background3;
+            ctxt.strokeStyle = theme.props.background3;
             drawGridlines(ctxt);
 
-            ctxt.strokeStyle = theme.foreground2;
+            ctxt.strokeStyle = theme.props.foreground2;
             for (const curveList of Object.values(curves)) {
                 for (const curve of curveList) {
                     drawCurve(ctxt, curve, extent);

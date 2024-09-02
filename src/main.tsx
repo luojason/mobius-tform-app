@@ -16,7 +16,7 @@ const INITIAL_MAPPING: B.GenerateMobiusTransformationProps = {
 };
 
 /** Initial theme to use. */
-const INITIAL_THEME: T.Theme = T.THEME_TABLE['dark'];
+const INITIAL_THEME: T.Theme = T.lookupTheme(T.DEFAULT_THEME)!;
 T.syncCSSWithTheme(INITIAL_THEME);
 
 // first call backend to generate the initial set of curves to display, prior to rendering

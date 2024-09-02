@@ -62,7 +62,7 @@ export function MovablePoint({ value, onChange, container }: MovablePointProps) 
             onPointerUp={() => setClicked(false)}
             onPointerCancel={() => setClicked(false)}
         />
-    )
+    );
 }
 
 /** Convert client coordinates to positional coordinates. */

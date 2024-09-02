@@ -12,7 +12,7 @@ export function ControlPointDisplay({ mapping }: DisplayProps) {
         <div className={styles.pointDisplay}>
             {`${display(mapping.in)} ↦ ${display(mapping.out)}`}
         </div>
-    )
+    );
 }
 
 function display(c: ExtComplex): string {

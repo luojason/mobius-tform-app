@@ -20,17 +20,16 @@ export function ThemeProvider({ initial, children }: React.PropsWithChildren<The
                 {children}
             </T.ThemeSetterContext.Provider>
         </T.ThemeContext.Provider>
-    )
-
+    );
 }
 
 function themeReducer(theme: T.Theme, action: T.ThemeDispatchAction): T.Theme {
     switch (action.type) {
         case 'set-theme': {
-            const newTheme = T.THEME_TABLE[action.theme];
-            if (newTheme === undefined) {
+            const newTheme = T.lookupTheme(action.theme);
+            if (newTheme === null) {
                 // theme could not be found in lookup table, keep current theme
-                console.error(`theme ${action.theme} not found in list of defined themes`);
+                console.error(`theme '${action.theme}' not found in list of defined themes`);
                 return theme;
             } else {
                 return newTheme;

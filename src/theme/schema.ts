@@ -6,6 +6,9 @@
 
 import { createContext } from "react";
 import darkTheme from "./themes/dark.json";
+import lightTheme from "./themes/light.json";
+
+export const DEFAULT_THEME = 'dark';
 
 /** Defines the mapping between theme properties and CSS variable names. */
 export const THEME_CSS_VAR_MAPPING = {
@@ -29,12 +32,35 @@ export const THEME_CSS_VAR_MAPPING = {
 export type ThemeKey = keyof typeof THEME_CSS_VAR_MAPPING;
 
 /** A Theme contains various properties that can be used to style a component's appearance. */
-export type Theme = Record<ThemeKey, string>;
+type ThemeProps = Record<ThemeKey, string>;
+
+export interface Theme {
+    readonly id: string;
+    readonly props: ThemeProps;
+}
 
 /** Assigns names to the available themes */
-export const THEME_TABLE: Record<string, Theme> = {
+const THEME_TABLE: Record<string, ThemeProps> = {
     dark: darkTheme,
+    light: lightTheme,
 } as const;
+
+/**
+ * Looks up a theme by id.
+ * @param id The unique identifier for the theme.
+ * @returns The theme if it exists, otherwise null.
+ */
+export function lookupTheme(id: string): Theme | null {
+    const themeProps = THEME_TABLE[id];
+    if (!themeProps) {
+        // theme could not be found
+        return null;
+    }
+    return {
+        id: id,
+        props: themeProps,
+    };
+}
 
 /** Interface for setting the theme. */
 export interface ThemeDispatchAction {
@@ -43,9 +69,11 @@ export interface ThemeDispatchAction {
 }
 
 /** Context to be consumed by downstream components providing the Theme. */
-// Initial value provided here is dummy value to make typescript compile,
-// actual initial value is set in ThemeProvider.
-export const ThemeContext = createContext<Theme>(darkTheme);
+// Initial value provided here is dummy value to make typescript compile, actual initial value is set in ThemeProvider.
+export const ThemeContext = createContext<Theme>({
+    id: 'dummyTheme',
+    props: darkTheme,
+});
 
 /** Context to be consumed by downstream components providing the ability to set the Theme. */
 // Dummy initial value provided as with ThemeContext.
@@ -64,6 +92,6 @@ export function syncCSSWithTheme(theme: Theme) {
     }
 
     for (const [key, cssVar] of Object.entries(THEME_CSS_VAR_MAPPING)) {
-        root.style.setProperty(cssVar, theme[key as ThemeKey]);
+        root.style.setProperty(cssVar, theme.props[key as ThemeKey]);
     }
 }

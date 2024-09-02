@@ -4,6 +4,7 @@ import { ControlPointDisplay } from "./ControlPointDisplay";
 import { CurveFamilyToggle } from "./CurveFamilyToggle";
 import { AlertDisplay } from "../components/AlertDisplay";
 import styles from "./sidebar.module.css";
+import { ThemeToggle } from "./ThemeToggle";
 
 interface SidebarProps {
     readonly globalState: GlobalState;
@@ -21,8 +22,9 @@ export function Sidebar({ globalState, dispatch }: SidebarProps) {
             <ControlPointDisplay mapping={globalState.points.val2} />
             <ControlPointDisplay mapping={globalState.points.val3} />
             {(globalState.exists) ? null : <ErrorDisplay />}
+            <ThemeToggle />
         </div>
-    )
+    );
 }
 
 /** Custom error message when Mobius transformation does not exist. */
@@ -35,5 +37,5 @@ function ErrorDisplay() {
             and do not exist/behave well when two inputs map to the same (or nearly the same) output.
             Move some of the control points farther away from each other to correct this.
         </AlertDisplay>
-    )
+    );
 }
