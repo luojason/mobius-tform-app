@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import styles from "./graph.module.css";
-import { Complex, Extent2d } from "../model/coord";
+import { Extent2d } from "../model/coord";
 import { useElementExtent } from "../hooks/useElementExtent";
 import { GraphCanvas } from "./GraphCanvas";
 import { MovablePoint } from "./MovablePoint";
@@ -14,8 +14,6 @@ const INITIAL_EXTENT: Extent2d = {
     width: 760,
     height: 644,
 };
-
-export type ValuePair = [Complex, (c: Complex) => void];
 
 interface MobiusGraphProps {
     readonly globalState: GlobalState;
