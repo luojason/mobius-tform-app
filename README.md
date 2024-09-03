@@ -1,7 +1,19 @@
-# Tauri + React + Typescript
+# Möbius Transformations
 
-This template should help get you started developing with Tauri, React and Typescript in Vite.
+A [Möbius Transformation](https://en.wikipedia.org/wiki/M%C3%B6bius_transformation)
+(also called a linear fractional transformation)
+is a globally conformal mapping of a the extended complex plane onto itself.
 
-## Recommended IDE Setup
+Möbius transformations have the property that circles and lines
+(which can be thought of as circles with infinite radius) are mapped to other circles/lines.
 
-- [VS Code](https://code.visualstudio.com/) + [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode) + [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer)
+This is a small desktop application made to visualize the action of such transformations.
+A Möbius transformation is uniquely determined by its action on 3 points,
+so 3 "control points" are provided by which the transformation can be manipulated and
+the resulting deformation of the contour lines observed.
+
+![sample of the user interface](./examples/sample.png)
+
+The application is built using the [Tauri framework](https://tauri.app/)
+and leveraging [React](https://react.dev/) + [Vite](https://vitejs.dev/) to drive the frontend,
+primarily as a pedagogical exercise.
